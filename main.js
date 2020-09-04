@@ -1,30 +1,21 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const element = document.getElementById('additionalInfo');
-    element.innerText = 'another changed text';
-
     const button = document.getElementById('button');
     const input = document.getElementById('input');
-    const results = document.getElementById('results');
+    const messages = document.getElementById('messages');
     button.addEventListener('click', function() {
-        const value = input.value;
         let xhr = new XMLHttpRequest();
+        xhr.open('POST', 'http://localhost:3000');
+        xhr.send(JSON.stringify({
+          nick: nick.value,
+          message: message.value
+        }));
 
-// 2. Настраиваем его: GET-запрос по URL
-        xhr.open('GET', 'https://cat-fact.herokuapp.com/facts');
-
-// 3. Отсылаем запрос
-        xhr.send(JSON.stringify({message: value}));
-
-// 4. Этот код сработает после того, как мы получим ответ сервера
         xhr.onload = function() {
             if (xhr.status != 200) { // анализируем HTTP-статус ответа, если статус не 200, то произошла ошибка
-                results.innerText = `Ошибка ${xhr.status}: ${xhr.statusText}`; // Например, 404: Not Found
+                console.error('Ошибка!');
             } else { // если всё прошло гладко, выводим результат
-                results.innerText = `Готово, получили ${xhr.response.length} байт\n`; // response -- это ответ сервера
-                const serverResult = JSON.parse(xhr.response);
-                for (let result of serverResult.all) {
-                    results.innerText += `${result.text}\n`;
-                }
+                console.log(`Готово, получили ${xhr.response.length} байт`); // response -- это ответ сервера
+                console.log(JSON.parse(xhr.response));
             }
         };
 
@@ -38,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function() {
         };
 
         xhr.onerror = function() {
-            results.innerText = "Запрос не удался";
+            console.log('Запрос не удался');
         };
     });
 
