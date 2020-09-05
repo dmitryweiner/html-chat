@@ -11,21 +11,15 @@ document.addEventListener('DOMContentLoaded', function() {
         }));
 
         xhr.onload = function() {
-            if (xhr.status != 200) { // анализируем HTTP-статус ответа, если статус не 200, то произошла ошибка
+            if (xhr.status != 200) {
                 console.error('Ошибка!');
-            } else { // если всё прошло гладко, выводим результат
-                console.log(`Готово, получили ${xhr.response.length} байт`); // response -- это ответ сервера
-                console.log(JSON.parse(xhr.response));
-            }
-        };
-
-        xhr.onprogress = function(event) {
-            if (event.lengthComputable) {
-                console.log(`Получено ${event.loaded} из ${event.total} байт`);
             } else {
-                console.log(`Получено ${event.loaded} байт`); // если в ответе нет заголовка Content-Length
+                const serverMessages = JSON.parse(xhr.response);
+                messages.innerHTML = '';
+                for (let serverMessage of serverMessages) {
+                    messages.innerHTML += `<ul><b>${serverMessage.nick}:</b> ${serverMessage.message}</ul>`;
+                }
             }
-
         };
 
         xhr.onerror = function() {
