@@ -18,7 +18,6 @@ const server = http.createServer(function(request, response) {
         })
     } else {
         console.log("GET");
-        console.log(request);
         response.writeHead(200, defaultHeaders);
         response.end(JSON.stringify(messages))
     }

@@ -27,5 +27,22 @@ document.addEventListener('DOMContentLoaded', function() {
         };
     });
 
+    setInterval(function() {
+        let xhr = new XMLHttpRequest();
+        xhr.open('GET', 'http://localhost:3000');
+        xhr.send();
+        xhr.onload = function() {
+            if (xhr.status != 200) {
+                console.error('Ошибка!');
+            } else {
+                const serverMessages = JSON.parse(xhr.response);
+                messages.innerHTML = '';
+                for (let serverMessage of serverMessages) {
+                    messages.innerHTML += `<ul><b>${serverMessage.nick}:</b> ${serverMessage.message}</ul>`;
+                }
+            }
+        };
+    }, 1000);
+
 });
 
