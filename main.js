@@ -1,7 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     const button = document.getElementById('button');
     const input = document.getElementById('input');
-    const messages = document.getElementById('messages');
     button.addEventListener('click', function() {
         let xhr = new XMLHttpRequest();
         xhr.open('POST', 'http://localhost:3000');
@@ -14,11 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (xhr.status != 200) {
                 console.error('Ошибка!');
             } else {
-                const serverMessages = JSON.parse(xhr.response);
-                messages.innerHTML = '';
-                for (let serverMessage of serverMessages) {
-                    messages.innerHTML += `<ul><b>${serverMessage.nick}:</b> ${serverMessage.message}</ul>`;
-                }
+                drawMessages(xhr.response);
             }
         };
 
@@ -35,14 +30,19 @@ document.addEventListener('DOMContentLoaded', function() {
             if (xhr.status != 200) {
                 console.error('Ошибка!');
             } else {
-                const serverMessages = JSON.parse(xhr.response);
-                messages.innerHTML = '';
-                for (let serverMessage of serverMessages) {
-                    messages.innerHTML += `<ul><b>${serverMessage.nick}:</b> ${serverMessage.message}</ul>`;
-                }
+                drawMessages(xhr.response);
             }
         };
     }, 1000);
+
+    function drawMessages(response) {
+        const messages = document.getElementById('messages');
+        const serverMessages = JSON.parse(response);
+        messages.innerHTML = '';
+        for (let serverMessage of serverMessages) {
+            messages.innerHTML += `<ul><b>${serverMessage.nick}:</b> ${serverMessage.message}</ul>`;
+        }
+    }
 
 });
 
