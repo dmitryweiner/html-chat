@@ -7,6 +7,7 @@ class App {
         this.nick = document.getElementById('nick');
         this.message = document.getElementById('message');
         this.messages = document.getElementById('messages');
+        this.serverMessages = [];
 
         // bind текущего this в функциях
         this.postMessage = this.postMessage.bind(this);
@@ -58,11 +59,14 @@ class App {
 
     drawMessages(response) {
         // метод отрисовки сообщений
-        const serverMessages = JSON.parse(response);
-        this.messages.innerHTML = '';
-        for (let serverMessage of serverMessages) {
-            this.messages.innerHTML += `<ul><b>${serverMessage.nick}:</b> ${serverMessage.message}</ul>`;
+        const newServerMessages = JSON.parse(response);
+        const existingIds = this.serverMessages.map(message => message.id);
+        for (let serverMessage of newServerMessages) {
+            if (!existingIds.includes(serverMessage.id)) {
+                this.messages.innerHTML += `<ul><b>${serverMessage.nick}:</b> ${serverMessage.message}</ul>`;
+            }
         }
+        this.serverMessages = newServerMessages;
     };
 
 }
