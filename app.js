@@ -58,17 +58,18 @@ class App extends React.Component {
     }
 
     render() {
+        const { nick, message, serverMessages } = this.state;
         return <>
             <h1>Чат</h1>
             <form>
                 <input
-                    value={this.state.nick}
+                    value={nick}
                     type="text"
                     onChange={e => this.setState({nick: e.target.value})}
                 />
                 <br/>
                 <textarea
-                    value={this.state.message}
+                    value={message}
                     onChange={e => this.setState({message: e.target.value})}
                 >
                 </textarea>
@@ -80,7 +81,7 @@ class App extends React.Component {
                 />
             </form>
             <ul>
-                {this.state.serverMessages.map((message, index) => (
+                {serverMessages.map((message, index) => (
                     <li key={index}>
                         <b>{message.nick}:</b>
                         {message.message}
