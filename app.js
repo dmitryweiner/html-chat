@@ -1,24 +1,18 @@
 const URL = 'http://localhost:3000';
-class App {
+class App extends React.Component {
 
     constructor() {
-        // сохраним в объекте найденные элементы DOM
-        this.button = document.getElementById('button');
-        this.nick = document.getElementById('nick');
-        this.message = document.getElementById('message');
-        this.messages = document.getElementById('messages');
-        this.serverMessages = [];
-
-        // bind текущего this в функциях
-        this.postMessage = this.postMessage.bind(this);
-        this.getMessages = this.getMessages.bind(this);
-        this.drawMessages = this.drawMessages.bind(this);
+        super();
+        // эти переменные будут меняться динамически
+        this.state = {
+            nick: '',
+            message: '',
+            serverMessages: []
+        };
 
         // получение новых сообщений в цикле
-        setInterval(this.getMessages, 1000);
-
-        // отправка сообщения при нажатии на кнопку
-        this.button.addEventListener('click', this.postMessage);
+        //я делаю bind, чтобы у функции был определён контекст this
+        setInterval(this.getMessages.bind(this), 1000);
     }
 
     postMessage() {
@@ -26,8 +20,8 @@ class App {
         let xhr = new XMLHttpRequest();
         xhr.open('POST', URL);
         xhr.send(JSON.stringify({
-            nick: this.nick.value,
-            message: this.message.value
+            nick: this.state.nick,
+            message: this.state.message
         }));
 
         xhr.onload = () => {
@@ -41,7 +35,7 @@ class App {
         xhr.onerror = function() {
             console.log('Запрос не удался');
         };
-    };
+    }
 
     getMessages() {
         // метод получения сообщений
@@ -49,24 +43,51 @@ class App {
         xhr.open('GET', URL);
         xhr.send();
         xhr.onload = () => {
-            if (xhr.status != 200) {
+            if (xhr.status !== 200) {
                 console.error('Ошибка!');
             } else {
                 this.drawMessages(xhr.response);
             }
         };
-    };
+    }
 
     drawMessages(response) {
         // метод отрисовки сообщений
         const newServerMessages = JSON.parse(response);
-        const existingIds = this.serverMessages.map(message => message.id);
-        for (let serverMessage of newServerMessages) {
-            if (!existingIds.includes(serverMessage.id)) {
-                this.messages.innerHTML += `<ul><b>${serverMessage.nick}:</b> ${serverMessage.message}</ul>`;
-            }
-        }
-        this.serverMessages = newServerMessages;
-    };
+        this.setState({serverMessages: newServerMessages});
+    }
+
+    render() {
+        return <>
+            <h1>Чат</h1>
+            <form>
+                <input
+                    value={this.state.nick}
+                    type="text"
+                    onChange={e => this.setState({nick: e.target.value})}
+                />
+                <br/>
+                <textarea
+                    value={this.state.message}
+                    onChange={e => this.setState({message: e.target.value})}
+                >
+                </textarea>
+                <br/>
+                <input
+                    type="button"
+                    value="отправить"
+                    onClick={() => this.postMessage()}
+                />
+            </form>
+            <ul>
+                {this.state.serverMessages.map((message, index) => (
+                    <li key={index}>
+                        <b>{message.nick}:</b>
+                        {message.message}
+                    </li>
+                ))}
+            </ul>
+        </>
+    }
 
 }
