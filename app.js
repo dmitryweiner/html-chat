@@ -1,4 +1,26 @@
 const URL = 'http://localhost:3000';
+
+class Message extends React.Component {
+    render() {
+        const { nick, message } = this.props;
+        return <li>
+            <b>{nick}:</b>
+            {message}
+        </li>;
+    }
+}
+
+class MessagesList extends React.Component {
+    render() {
+        const { messages } = this.props;
+        return <ul>
+            {messages.map((message, index) => (
+                <Message nick={message.nick} message={message.message} key={index}/>
+            ))}
+        </ul>;
+    }
+}
+
 class App extends React.Component {
 
     constructor() {
@@ -80,14 +102,7 @@ class App extends React.Component {
                     onClick={() => this.postMessage()}
                 />
             </form>
-            <ul>
-                {serverMessages.map((message, index) => (
-                    <li key={index}>
-                        <b>{message.nick}:</b>
-                        {message.message}
-                    </li>
-                ))}
-            </ul>
+            <MessagesList messages={serverMessages}/>
         </>
     }
 
