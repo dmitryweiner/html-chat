@@ -21,14 +21,53 @@ class MessagesList extends React.Component {
     }
 }
 
+class Form extends React.Component {
+    constructor() {
+        super();
+        this.state = {
+            nick: '',
+            message: ''
+        };
+    }
+
+    handleSend() {
+        this.props.postMessage({
+            nick: this.state.nick,
+            message: this.state.message
+        });
+    }
+
+    render() {
+        const { nick, message } = this.state;
+
+        return <form>
+                <input
+                    value={nick}
+                    type="text"
+                    onChange={e => this.setState({nick: e.target.value})}
+                />
+                <br/>
+                <textarea
+                    value={message}
+                    onChange={e => this.setState({message: e.target.value})}
+                >
+                </textarea>
+                <br/>
+                <input
+                    type="button"
+                    value="отправить"
+                    onClick={() => this.handleSend()}
+                />
+            </form>;
+    }
+}
+
 class App extends React.Component {
 
     constructor() {
         super();
         // эти переменные будут меняться динамически
         this.state = {
-            nick: '',
-            message: '',
             serverMessages: []
         };
 
@@ -37,13 +76,13 @@ class App extends React.Component {
         setInterval(this.getMessages.bind(this), 1000);
     }
 
-    postMessage() {
+    postMessage(newMessage) {
         // метод отправки сообщения
         let xhr = new XMLHttpRequest();
         xhr.open('POST', URL);
         xhr.send(JSON.stringify({
-            nick: this.state.nick,
-            message: this.state.message
+            nick: newMessage.nick,
+            message: newMessage.message
         }));
 
         xhr.onload = () => {
@@ -80,28 +119,10 @@ class App extends React.Component {
     }
 
     render() {
-        const { nick, message, serverMessages } = this.state;
+        const {serverMessages } = this.state;
         return <>
             <h1>Чат</h1>
-            <form>
-                <input
-                    value={nick}
-                    type="text"
-                    onChange={e => this.setState({nick: e.target.value})}
-                />
-                <br/>
-                <textarea
-                    value={message}
-                    onChange={e => this.setState({message: e.target.value})}
-                >
-                </textarea>
-                <br/>
-                <input
-                    type="button"
-                    value="отправить"
-                    onClick={() => this.postMessage()}
-                />
-            </form>
+            <Form postMessage={(newMessage) => this.postMessage(newMessage)}/>
             <MessagesList messages={serverMessages}/>
         </>
     }
