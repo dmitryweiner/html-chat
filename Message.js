@@ -1,3 +1,5 @@
+import React from 'react';
+
 class Message extends React.Component {
     render() {
         const { nick, message } = this.props;
@@ -8,7 +10,4 @@ class Message extends React.Component {
     }
 }
 
-Message.propTypes = {
-    nick: PropTypes.string.isRequired,
-    message: PropTypes.string.isRequired
-};
+export default Message;
