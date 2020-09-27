@@ -7,3 +7,8 @@ class Message extends React.Component {
         </li>;
     }
 }
+
+Message.propTypes = {
+    nick: PropTypes.string.isRequired,
+    message: PropTypes.string.isRequired
+};
