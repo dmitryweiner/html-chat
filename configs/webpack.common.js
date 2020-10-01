@@ -4,14 +4,12 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const paths = {
-    src: path.resolve(__dirname, './src'), // source files
-    build: path.resolve(__dirname, './build'), // production build files
-    static: path.resolve(__dirname, './public'), // static files to copy to build folder
+    src: path.resolve(__dirname, '../src'), // source files
+    build: path.resolve(__dirname, '../build'), // production build files
+    static: path.resolve(__dirname, '../public'), // static files to copy to build folder
 };
 
 module.exports = {
-    mode: 'development',
-    devtool: 'inline-source-map',
     entry: [paths.src + '/index.js'],
     output: {
         path: paths.build,
