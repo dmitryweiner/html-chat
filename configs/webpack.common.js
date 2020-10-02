@@ -38,6 +38,14 @@ module.exports = {
                 exclude: /node_modules/,
                 use: ['babel-loader'],
             },
+            {
+                test: /\.(?:ico|gif|png|jpg|jpeg|webp|svg)$/i,
+                loader: 'file-loader',
+                options: {
+                    name: '[path][name].[ext]',
+                    context: 'src', // prevent display of src/ in filename
+                },
+            },
         ]
     }
 };
