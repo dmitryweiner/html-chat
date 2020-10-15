@@ -1,6 +1,6 @@
 import React from 'react';
 import cat from './cat.jpg';
-import styles from './styles.css';
+import './styles.css';
 
 /**
  * For incapsulated styles see
