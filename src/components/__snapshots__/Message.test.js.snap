@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Message component Message matches snapshot 1`] = `
+<li>
+  <b>
+    test
+    :
+  </b>
+  test
+</li>
+`;
