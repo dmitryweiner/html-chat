@@ -1,79 +1,19 @@
 import React from 'react';
-import Form from './components/Form';
-import MessagesList from './components/MessagesList';
-import CatPicture from './components/CatPicture';
-import DogPicture from './components/DogPucture';
-
-const URL = 'http://localhost:3000';
+import { Switch, Route, Redirect } from 'react-router-dom';
+import LoginView from './views/LoginView';
+import RegistrationView from './views/RegistrationView';
+import ChatView from './views/ChatView';
 
 class App extends React.Component {
-    constructor() {
-        super();
-        // эти переменные будут меняться динамически
-        this.state = {
-            serverMessages: [],
-        };
-
-        // получение новых сообщений в цикле
-        //я делаю bind, чтобы у функции был определён контекст this
-        setInterval(this.getMessages.bind(this), 1000);
-    }
-
-    postMessage(newMessage) {
-        // метод отправки сообщения
-        let xhr = new XMLHttpRequest();
-        xhr.open('POST', URL);
-        xhr.send(
-            JSON.stringify({
-                nick: newMessage.nick,
-                message: newMessage.message,
-            })
-        );
-
-        xhr.onload = () => this.handleOnload(xhr);
-
-        xhr.onerror = function () {
-            console.log('Запрос не удался');
-        };
-    }
-
-    getMessages() {
-        // метод получения сообщений
-        let xhr = new XMLHttpRequest();
-        xhr.open('GET', URL);
-        xhr.send();
-        xhr.onload = () => this.handleOnload(xhr);
-    }
-
-    handleOnload(xhr) {
-        if (xhr.status !== 200) {
-            console.error('Ошибка!');
-        } else {
-            this.drawMessages(xhr.response);
-        }
-    }
-
-    drawMessages(response) {
-        // метод отрисовки сообщений
-        const newServerMessages = JSON.parse(response);
-        this.setState({ serverMessages: newServerMessages });
-    }
-
     render() {
-        const { serverMessages } = this.state;
         return (
             <>
-                <h1>Чат</h1>
-
-                {/*-- обычная картинка --*/}
-                <img src="images/cat.png" style={{ width: '200px' }} />
-
-                <CatPicture />
-
-                <DogPicture />
-
-                <Form postMessage={(newMessage) => this.postMessage(newMessage)} />
-                <MessagesList messages={serverMessages} />
+                <Switch>
+                    <Route path="/login" component={LoginView} />
+                    <Route path="/registration" component={RegistrationView} />
+                    <Route path="/chat" component={ChatView} />
+                    <Redirect from="/" to="/login" />
+                </Switch>
             </>
         );
     }
