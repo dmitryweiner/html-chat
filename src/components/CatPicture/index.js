@@ -7,6 +7,6 @@ import './styles.css';
  * @see https://medium.com/@epilande/working-with-css-modules-a6b8aad37f3a
  */
 
-export default () => {
+export default function CatPicture() {
     return <img src={cat} className="cat-picture" />;
-};
+}
