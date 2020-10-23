@@ -12,9 +12,15 @@ class ChatView extends React.Component {
             serverMessages: [],
         };
 
-        // получение новых сообщений в цикле
-        //я делаю bind, чтобы у функции был определён контекст this
-        setInterval(this.getMessages.bind(this), 1000);
+        this.timer = null;
+    }
+
+    componentDidMount() {
+        this.timer = setInterval(this.getMessages.bind(this), 1000);
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.timer);
     }
 
     postMessage(newMessage) {
