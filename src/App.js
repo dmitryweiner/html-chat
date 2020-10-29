@@ -3,6 +3,7 @@ import { Switch, Route, Redirect, Link } from 'react-router-dom';
 import LoginView from './views/LoginView';
 import RegistrationView from './views/RegistrationView';
 import ChatView from './views/ChatView';
+import ProfileView from './views/ProfileView';
 
 class App extends React.Component {
     render() {
@@ -10,11 +11,13 @@ class App extends React.Component {
             <>
                 <Link to="/login">Логин</Link>&nbsp;
                 <Link to="/registration">Регистрация</Link>&nbsp;
+                <Link to="/profile">Профиль</Link>&nbsp;
                 <Link to="/chat">Чат</Link>
                 <Switch>
                     <Route path="/login" component={LoginView} />
                     <Route path="/registration" component={RegistrationView} />
                     <Route path="/chat" component={ChatView} />
+                    <Route path="/profile" component={ProfileView} />
                     <Redirect exact from="/" to="/login" />
                 </Switch>
             </>

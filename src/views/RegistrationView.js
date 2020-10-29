@@ -1,9 +1,5 @@
 import React from 'react';
-import axios from 'axios';
-
-const axiosInstance = axios.create({
-    baseURL: 'http://localhost:3001'
-});
+import apiService from '../apiService';
 
 export default class RegistrationView extends React.Component {
     constructor(props) {
@@ -21,8 +17,8 @@ export default class RegistrationView extends React.Component {
             result: null,
             error: null
         });
-        axiosInstance
-            .post('/user', {
+        apiService.user
+            .create({
                 nickname: this.state.nickname,
                 password: this.state.password
             })
