@@ -11,9 +11,8 @@ module.exports = merge(common, {
         contentBase: paths.build,
         open: true,
         hot: true,
+        port: 3000
     },
 
-    plugins: [
-        new webpack.HotModuleReplacementPlugin(),
-    ],
+    plugins: [new webpack.HotModuleReplacementPlugin()]
 });
