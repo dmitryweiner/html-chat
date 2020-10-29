@@ -10,15 +10,27 @@ export default class RegistrationView extends React.Component {
         super(props);
         this.state = {
             nickname: '',
-            password: ''
+            password: '',
+            result: null,
+            error: null
         };
     }
 
     handleSubmit(e) {
-        axiosInstance.post('/user', {
-            nickname: this.state.nickname,
-            password: this.state.password
+        this.setState({
+            result: null,
+            error: null
         });
+        axiosInstance
+            .post('/user', {
+                nickname: this.state.nickname,
+                password: this.state.password
+            })
+            .then(() => {
+                this.setState({ result: 'Пользователь успешно зарегистрирован' });
+                setTimeout(() => this.props.history.push('/login'), 2000);
+            })
+            .catch(error => this.setState({ error: 'Ошибка' + error.response.data.error }));
         e.preventDefault();
     }
 
@@ -26,6 +38,8 @@ export default class RegistrationView extends React.Component {
         return (
             <>
                 <h1>Регистрация</h1>
+                {this.state.error}
+                {this.state.result}
                 <form onSubmit={e => this.handleSubmit(e)}>
                     <div>
                         <label>
