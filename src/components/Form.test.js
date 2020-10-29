@@ -13,7 +13,7 @@ describe('Form', () => {
         component.find('input[type="button"]').simulate('click');
         expect(handler).toHaveBeenCalledWith({
             nick,
-            message,
+            message
         });
     });
 });

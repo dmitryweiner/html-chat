@@ -9,7 +9,7 @@ class ChatView extends React.Component {
         super();
         // эти переменные будут меняться динамически
         this.state = {
-            serverMessages: [],
+            serverMessages: []
         };
 
         this.timer = null;
@@ -30,7 +30,7 @@ class ChatView extends React.Component {
         xhr.send(
             JSON.stringify({
                 nick: newMessage.nick,
-                message: newMessage.message,
+                message: newMessage.message
             })
         );
 
@@ -68,7 +68,7 @@ class ChatView extends React.Component {
         return (
             <>
                 <h1>Чат</h1>
-                <Form postMessage={(newMessage) => this.postMessage(newMessage)} />
+                <Form postMessage={newMessage => this.postMessage(newMessage)} />
                 <MessagesList messages={serverMessages} />
             </>
         );

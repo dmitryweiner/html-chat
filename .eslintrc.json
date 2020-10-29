@@ -6,8 +6,9 @@
   "extends": ["eslint:recommended", "plugin:react/recommended", "prettier", "plugin:sonarjs/recommended"],
   "plugins": ["prettier", "sonarjs"],
   "settings": {
-    "pragma": "React",
-    "version": "detect"
+    "react": {
+      "version": "detect"
+    }
   },
   "parser": "babel-eslint",
   "rules": {
