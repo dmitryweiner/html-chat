@@ -10,7 +10,9 @@
     "build": "cross-env NODE_ENV=production webpack --config ./configs/webpack.production.js",
     "lint": "eslint src/",
     "lint-fix": "eslint src/ --fix",
-    "prettier": "prettier --write \"src/**/*.js\""
+    "prettier": "prettier --write \"src/**/*.js\"",
+    "storybook": "start-storybook -p 6006 --no-dll",
+    "build-storybook": "build-storybook --no-dll"
   },
   "repository": {
     "type": "git",
@@ -27,8 +29,13 @@
   },
   "homepage": "https://github.com/dmitryweiner/html-chat#readme",
   "devDependencies": {
+    "@babel/core": "^7.12.3",
     "@babel/preset-env": "^7.11.5",
     "@babel/preset-react": "^7.10.4",
+    "@storybook/addon-actions": "^6.0.28",
+    "@storybook/addon-essentials": "^6.0.28",
+    "@storybook/addon-links": "^6.0.28",
+    "@storybook/react": "^6.0.28",
     "axios": "^0.21.0",
     "babel-eslint": "^10.1.0",
     "babel-jest": "^26.3.0",
@@ -53,6 +60,7 @@
     "jest": "^26.4.2",
     "lint-staged": "^10.4.2",
     "prettier": "^2.1.2",
+    "react-is": "^17.0.1",
     "react-router-dom": "^5.2.0",
     "react-test-renderer": "^16.13.1",
     "style-loader": "^1.2.1",
