@@ -1,56 +1,19 @@
 import React from 'react';
+import { Formik } from 'formik';
 import apiService from '../apiService';
 
 export default class RegistrationView extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            nickname: '',
-            password: '',
             result: null,
             error: null
         };
     }
 
-    validate() {
-        if (this.state.nickname.length === 0) {
-            this.setState({
-                error: 'Введите никнейм'
-            });
-            return false;
-        }
-
-        if (this.state.password.length === 0) {
-            this.setState({
-                error: 'Введите пароль'
-            });
-            return false;
-        }
-
-        if (this.state.password.length < 7) {
-            this.setState({
-                error: 'Длина пароля должна быть больше 6 символов'
-            });
-            return false;
-        }
-
-        return true;
-    }
-
-    handleSubmit(e) {
-        e.preventDefault();
-        this.setState({
-            result: null,
-            error: null
-        });
-
-        if (!this.validate()) return;
-
+    handleSubmit(values) {
         apiService.user
-            .create({
-                nickname: this.state.nickname,
-                password: this.state.password
-            })
+            .create(values)
             .then(() => {
                 this.setState({ result: 'Пользователь успешно зарегистрирован' });
                 setTimeout(() => this.props.history.push('/login'), 2000);
@@ -59,36 +22,68 @@ export default class RegistrationView extends React.Component {
     }
 
     render() {
-        const { error, result, nickname, password } = this.state;
+        const { error, result } = this.state;
 
         return (
             <>
                 <h1>Регистрация</h1>
                 <div>{error && <span style={{ color: 'red' }}>{error}</span>}</div>
                 {result}
-                <form onSubmit={e => this.handleSubmit(e)}>
-                    <div>
-                        <label>
-                            Никнейм:&nbsp;
-                            <input
-                                type="text"
-                                value={nickname}
-                                onChange={e => this.setState({ nickname: e.target.value })}
-                            />
-                        </label>
-                    </div>
-                    <div>
-                        <label>
-                            Пароль:&nbsp;
-                            <input
-                                type="password"
-                                value={password}
-                                onChange={e => this.setState({ password: e.target.value })}
-                            />
-                        </label>
-                    </div>
-                    <button type="submit">Создать пользователя</button>
-                </form>
+                <Formik
+                    initialValues={{ nickname: '', password: '' }}
+                    validate={values => {
+                        const errors = {};
+                        if (!values.nickname) {
+                            errors.nickname = 'Введите никнейм';
+                        }
+                        if (!values.password) {
+                            errors.password = 'Введите пароль';
+                        }
+                        if (values.password.length < 7) {
+                            errors.password = 'Длина пароля должна быть больше 6 символов';
+                        }
+                        return errors;
+                    }}
+                    onSubmit={values => {
+                        this.handleSubmit(values);
+                    }}
+                >
+                    {({ values, errors, touched, handleChange, handleBlur, handleSubmit }) => (
+                        <form onSubmit={handleSubmit}>
+                            {errors.nickname && touched.nickname && (
+                                <div style={{ color: 'red' }}>{errors.nickname}</div>
+                            )}
+                            <div>
+                                <label>
+                                    Никнейм:&nbsp;
+                                    <input
+                                        type="text"
+                                        name="nickname"
+                                        value={values.nickname}
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                    />
+                                </label>
+                            </div>
+                            {errors.password && touched.password && (
+                                <div style={{ color: 'red' }}>{errors.password}</div>
+                            )}
+                            <div>
+                                <label>
+                                    Пароль:&nbsp;
+                                    <input
+                                        type="password"
+                                        name="password"
+                                        value={values.password}
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                    />
+                                </label>
+                            </div>
+                            <button type="submit">Создать пользователя</button>
+                        </form>
+                    )}
+                </Formik>
             </>
         );
     }
