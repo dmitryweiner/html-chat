@@ -1,5 +1,6 @@
 import React from 'react';
 import apiService from '../apiService';
+import ChatForm from '../components/ChatForm';
 
 export default class ProfileView extends React.Component {
     constructor(props) {
@@ -26,6 +27,8 @@ export default class ProfileView extends React.Component {
                         <div>Создан: {new Date(this.state.user.createdAt).toLocaleString()}</div>
                     </>
                 )}
+
+                <ChatForm handleSubmit={data => console.log(data)} />
             </>
         );
     }
