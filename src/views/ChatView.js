@@ -1,15 +1,14 @@
 import React from 'react';
 import MessageForm from '../components/MessageForm';
 import MessagesList from '../components/MessagesList';
-
-const URL = 'http://localhost:3000';
+import apiService from '../apiService';
 
 class ChatView extends React.Component {
     constructor() {
         super();
         // эти переменные будут меняться динамически
         this.state = {
-            serverMessages: []
+            messages: []
         };
 
         this.timer = null;
@@ -23,53 +22,28 @@ class ChatView extends React.Component {
         clearInterval(this.timer);
     }
 
-    postMessage(newMessage) {
-        // метод отправки сообщения
-        let xhr = new XMLHttpRequest();
-        xhr.open('POST', URL);
-        xhr.send(
-            JSON.stringify({
-                nick: newMessage.nick,
-                message: newMessage.message
-            })
-        );
-
-        xhr.onload = () => this.handleOnload(xhr);
-
-        xhr.onerror = function () {
-            console.log('Запрос не удался');
-        };
+    postMessage({ content }) {
+        apiService.message
+            .create({ content, chatId: this.props.match.params.id })
+            .then(() => apiService.message.getMessages(this.props.match.params.id))
+            .then(response => response.data)
+            .then(messages => this.setState({ messages }));
     }
 
     getMessages() {
-        // метод получения сообщений
-        let xhr = new XMLHttpRequest();
-        xhr.open('GET', URL);
-        xhr.send();
-        xhr.onload = () => this.handleOnload(xhr);
-    }
-
-    handleOnload(xhr) {
-        if (xhr.status !== 200) {
-            console.error('Ошибка!');
-        } else {
-            this.drawMessages(xhr.response);
-        }
-    }
-
-    drawMessages(response) {
-        // метод отрисовки сообщений
-        const newServerMessages = JSON.parse(response);
-        this.setState({ serverMessages: newServerMessages });
+        apiService.message
+            .getMessages(this.props.match.params.id)
+            .then(response => response.data)
+            .then(messages => this.setState({ messages }));
     }
 
     render() {
-        const { serverMessages } = this.state;
+        const { messages } = this.state;
         return (
             <>
                 <h1>Чат</h1>
                 <MessageForm postMessage={newMessage => this.postMessage(newMessage)} />
-                <MessagesList messages={serverMessages} />
+                <MessagesList messages={messages} />
             </>
         );
     }

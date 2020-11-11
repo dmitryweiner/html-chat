@@ -1,38 +1,33 @@
 import React from 'react';
 
 class MessageForm extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
-            nick: '',
-            message: ''
+            content: ''
         };
     }
 
-    handleSend() {
+    handleSend(event) {
+        event.preventDefault();
         this.props.postMessage({
-            nick: this.state.nick,
-            message: this.state.message
+            content: this.state.content
         });
+        this.setState({ content: '' });
     }
 
     render() {
-        const { nick, message } = this.state;
+        const { content } = this.state;
 
         return (
-            <form>
+            <form onSubmit={event => this.handleSend(event)}>
                 <input
-                    value={nick}
+                    value={content}
                     type="text"
-                    onChange={e => this.setState({ nick: e.target.value })}
+                    onChange={e => this.setState({ content: e.target.value })}
                 />
                 <br />
-                <textarea
-                    value={message}
-                    onChange={e => this.setState({ message: e.target.value })}
-                ></textarea>
-                <br />
-                <input type="button" value="отправить" onClick={() => this.handleSend()} />
+                <button type="submit">отправить</button>
             </form>
         );
     }
