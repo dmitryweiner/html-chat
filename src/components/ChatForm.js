@@ -28,6 +28,7 @@ class ChatForm extends React.Component {
 
         if (this.validate()) {
             this.props.handleSubmit({ title: this.state.title });
+            this.setState({ title: '' });
         }
     }
 
