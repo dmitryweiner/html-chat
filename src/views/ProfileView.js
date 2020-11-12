@@ -35,17 +35,17 @@ export default class ProfileView extends React.Component {
             .then(chats => this.setState({ chats }));
     }
 
-    goHandle(id) {
+    goHandler(id) {
         this.props.history.push(`/chat/${id}`);
     }
 
-    joinHandle(id) {
+    joinHandler(id) {
         if (!confirm('Вы действительно хотите вступить в этот чат?')) return;
 
         apiService.chat.join(id).then(() => this.getChatList());
     }
 
-    deleteHandle(id) {
+    deleteHandler(id) {
         if (!confirm('Вы действительно хотите удалить этот чат?')) return;
 
         apiService.chat.delete(id).then(() => this.getChatList());
@@ -73,9 +73,9 @@ export default class ProfileView extends React.Component {
                 <ChatList
                     userId={this.state.user?.id}
                     list={this.state.chats}
-                    goHandle={id => this.goHandle(id)}
-                    joinHandle={id => this.joinHandle(id)}
-                    deleteHandle={id => this.deleteHandle(id)}
+                    goHandler={id => this.goHandler(id)}
+                    joinHandler={id => this.joinHandler(id)}
+                    deleteHandler={id => this.deleteHandler(id)}
                 />
                 <ChatForm handleSubmit={data => this.handleChatCreate(data)} />
 
@@ -83,9 +83,9 @@ export default class ProfileView extends React.Component {
                 <ChatList
                     userId={this.state.user?.id}
                     list={this.state.foundChats}
-                    goHandle={id => this.goHandle(id)}
-                    joinHandle={id => this.joinHandle(id)}
-                    deleteHandle={id => this.deleteHandle(id)}
+                    goHandler={id => this.goHandler(id)}
+                    joinHandler={id => this.joinHandler(id)}
+                    deleteHandler={id => this.deleteHandler(id)}
                 />
             </>
         );

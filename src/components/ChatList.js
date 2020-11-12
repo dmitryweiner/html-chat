@@ -13,9 +13,9 @@ class ChatList extends React.Component {
                     <Chat
                         userId={this.props.userId}
                         chat={chat}
-                        goHandle={this.props.goHandle}
-                        joinHandle={this.props.joinHandle}
-                        deleteHandle={this.props.deleteHandle}
+                        goHandler={this.props.goHandler}
+                        joinHandler={this.props.joinHandler}
+                        deleteHandler={this.props.deleteHandler}
                         key={chat.id}
                     />
                 ))}
@@ -25,16 +25,17 @@ class ChatList extends React.Component {
 }
 
 ChatList.propTypes = {
+    userId: PropTypes.string.isRequired,
     list: PropTypes.arrayOf(
         PropTypes.shape({
             id: PropTypes.string,
-            title: PropTypes.string
+            title: PropTypes.string,
+            participants: PropTypes.arrayOf(PropTypes.string)
         })
     ),
-    userId: PropTypes.string,
-    goHandle: PropTypes.func,
-    joinHandle: PropTypes.func,
-    deleteHandle: PropTypes.func
+    goHandler: PropTypes.func,
+    joinHandler: PropTypes.func,
+    deleteHandler: PropTypes.func
 };
 
 export default ChatList;

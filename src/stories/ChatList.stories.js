@@ -15,30 +15,27 @@ Primary.args = {
     list: [
         {
             id: '1',
-            createdAt: '2020-11-11T11:16:03.901Z',
-            title: 'Мой супер чат',
+            createdAt: '2020-10-20T03:48:24.735Z',
+            title: 'Super chat',
             userId: '1',
-            participants: ['1', '2'],
-            isPrivate: false
+            participants: ['1', '2']
         },
         {
             id: '2',
-            createdAt: '2020-11-11T11:16:03.9011Z',
-            title: 'Не мой супер чат',
+            createdAt: '2020-10-20T03:48:24.7351Z',
+            title: 'Another super chat',
             userId: '2',
-            participants: ['1', '2'],
-            isPrivate: false
+            participants: ['1', '2']
         },
         {
             id: '3',
-            createdAt: '2020-11-11T11:16:03.9013Z',
-            title: 'Мупер чат',
+            createdAt: '2020-10-20T03:48:24.7352Z',
+            title: 'Another super chat 2',
             userId: '2',
-            participants: ['2', '3'],
-            isPrivate: false
+            participants: ['2', '3']
         }
     ],
-    goHandle: action('go'),
-    deleteHandle: action('delete'),
-    joinHandle: action('join')
+    goHandler: action('go'),
+    joinHandler: action('join'),
+    deleteHandler: action('delete')
 };

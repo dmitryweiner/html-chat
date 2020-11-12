@@ -5,13 +5,8 @@ import PropTypes from 'prop-types';
  * Компонент для отображения чата в списке чатов
  */
 class Chat extends React.Component {
-    innerClickHandle(e) {
-        e.preventDefault();
-        this.props.goHandle(this.props.chat.id);
-    }
-
     isOwner() {
-        return this.props.chat.userId === this.props.userId;
+        return this.props.userId === this.props.chat.userId;
     }
 
     isParticipant() {
@@ -25,27 +20,34 @@ class Chat extends React.Component {
                     <a href="/" onClick={e => this.innerClickHandle(e)}>
                         {this.props.chat.title}
                     </a>
-                    <button onClick={() => this.props.deleteHandle(this.props.chat.id)}>
+                    &nbsp;
+                    <button onClick={() => this.props.deleteHandler(this.props.chat.id)}>
                         удалить
                     </button>
                 </>
             );
         }
-
         if (this.isParticipant()) {
             return (
-                <a href="/" onClick={e => this.innerClickHandle(e)}>
-                    {this.props.chat.title}
-                </a>
+                <>
+                    <a href="/" onClick={e => this.innerClickHandle(e)}>
+                        {this.props.chat.title}
+                    </a>
+                    {/* TODO: exit button */}
+                </>
             );
         }
-
         return (
             <>
                 <span>{this.props.chat.title}</span>
-                <button onClick={() => this.props.joinHandle(this.props.chat.id)}>вступить</button>
+                <button onClick={() => this.props.joinHandler(this.props.chat.id)}>вступить</button>
             </>
         );
+    }
+
+    innerClickHandle(e) {
+        e.preventDefault();
+        this.props.goHandler(this.props.chat.id);
     }
 
     render() {
@@ -58,12 +60,11 @@ Chat.propTypes = {
     chat: PropTypes.shape({
         id: PropTypes.string,
         title: PropTypes.string,
-        participants: PropTypes.arrayOf(PropTypes.string),
-        createdAt: PropTypes.string
-    }).isRequired,
-    goHandle: PropTypes.func,
-    joinHandle: PropTypes.func,
-    deleteHandle: PropTypes.func
+        participants: PropTypes.arrayOf(PropTypes.string)
+    }),
+    goHandler: PropTypes.func,
+    joinHandler: PropTypes.func,
+    deleteHandler: PropTypes.func
 };
 
 export default Chat;

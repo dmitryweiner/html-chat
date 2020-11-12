@@ -11,36 +11,36 @@ const Template = args => <Chat {...args} />;
 
 const chat = {
     id: '0b634621ac63b',
-    createdAt: '2020-11-11T11:16:03.9013Z',
+    createdAt: '2020-11-11T11:16:03.903Z',
     title: 'Мой супер чат',
-    userId: 'c5acc3193e83b',
-    participants: ['c5acc3193e83b', 'db6bb9ac9d72f'],
+    userId: '1',
+    participants: ['1', '2'],
     isPrivate: false
 };
 
-export const ChatOwner = Template.bind({});
-ChatOwner.args = {
-    userId: 'c5acc3193e83b',
+export const Owner = Template.bind({});
+Owner.args = {
+    userId: '1',
     chat,
-    goHandle: action('go'),
-    deleteHandle: action('delete'),
-    joinHandle: action('join')
+    goHandler: action('go'),
+    joinHandler: action('join'),
+    deleteHandler: action('delete')
 };
 
-export const ChatParticipant = Template.bind({});
-ChatParticipant.args = {
-    userId: 'db6bb9ac9d72f',
+export const Participant = Template.bind({});
+Participant.args = {
+    userId: '2',
     chat,
-    goHandle: action('go'),
-    deleteHandle: action('delete'),
-    joinHandle: action('join')
+    goHandler: action('go'),
+    joinHandler: action('join'),
+    deleteHandler: action('delete')
 };
 
 export const NotParticipant = Template.bind({});
 NotParticipant.args = {
-    userId: 'fd156gsd6fg',
+    userId: '3',
     chat,
-    goHandle: action('go'),
-    deleteHandle: action('delete'),
-    joinHandle: action('join')
+    goHandler: action('go'),
+    joinHandler: action('join'),
+    deleteHandler: action('delete')
 };
