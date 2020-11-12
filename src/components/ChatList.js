@@ -11,9 +11,11 @@ class ChatList extends React.Component {
             <ul>
                 {this.props.list.map(chat => (
                     <Chat
-                        id={chat.id}
-                        title={chat.title}
-                        clickHandle={this.props.clickHandle}
+                        userId={this.props.userId}
+                        chat={chat}
+                        goHandle={this.props.goHandle}
+                        joinHandle={this.props.joinHandle}
+                        deleteHandle={this.props.deleteHandle}
                         key={chat.id}
                     />
                 ))}
@@ -29,7 +31,10 @@ ChatList.propTypes = {
             title: PropTypes.string
         })
     ),
-    clickHandle: PropTypes.func
+    userId: PropTypes.string,
+    goHandle: PropTypes.func,
+    joinHandle: PropTypes.func,
+    deleteHandle: PropTypes.func
 };
 
 export default ChatList;

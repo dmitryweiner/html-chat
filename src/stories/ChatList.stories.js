@@ -11,17 +11,34 @@ const Template = args => <ChatList {...args} />;
 
 export const Primary = Template.bind({});
 Primary.args = {
+    userId: '1',
     list: [
         {
-            id: '853d59e4a2b8e',
-            createdAt: '2020-10-20T03:48:24.735Z',
-            title: 'Super chat'
+            id: '1',
+            createdAt: '2020-11-11T11:16:03.901Z',
+            title: 'Мой супер чат',
+            userId: '1',
+            participants: ['1', '2'],
+            isPrivate: false
         },
         {
-            id: '9e4a2b8e853d5',
-            createdAt: '2020-10-20T03:48:24.735Z',
-            title: 'Another super chat'
+            id: '2',
+            createdAt: '2020-11-11T11:16:03.9011Z',
+            title: 'Не мой супер чат',
+            userId: '2',
+            participants: ['1', '2'],
+            isPrivate: false
+        },
+        {
+            id: '3',
+            createdAt: '2020-11-11T11:16:03.9013Z',
+            title: 'Мупер чат',
+            userId: '2',
+            participants: ['2', '3'],
+            isPrivate: false
         }
     ],
-    clickHandle: action('clicked!')
+    goHandle: action('go'),
+    deleteHandle: action('delete'),
+    joinHandle: action('join')
 };
