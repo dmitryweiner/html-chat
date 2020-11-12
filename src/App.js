@@ -12,7 +12,6 @@ class App extends React.Component {
                 <Link to="/login">Логин</Link>&nbsp;
                 <Link to="/registration">Регистрация</Link>&nbsp;
                 <Link to="/profile">Профиль</Link>&nbsp;
-                <Link to="/chat">Чат</Link>
                 <Switch>
                     <Route path="/login" component={LoginView} />
                     <Route path="/registration" component={RegistrationView} />
