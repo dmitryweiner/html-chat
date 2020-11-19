@@ -32,16 +32,17 @@ export default class LoginView extends React.Component {
 
     render() {
         return (
-            <>
+            <div className="login">
                 <h1>Логин</h1>
                 {this.state.error}
-                {this.state.result}
+                {this.state.result && <div className="result">{this.state.result}</div>}
                 <form onSubmit={e => this.handleSubmit(e)}>
                     <div>
                         <label>
                             Никнейм:&nbsp;
                             <input
                                 type="text"
+                                name="nickname"
                                 value={this.state.nickname}
                                 onChange={e => this.setState({ nickname: e.target.value })}
                             />
@@ -52,6 +53,7 @@ export default class LoginView extends React.Component {
                             Пароль:&nbsp;
                             <input
                                 type="password"
+                                name="password"
                                 value={this.state.password}
                                 onChange={e => this.setState({ password: e.target.value })}
                             />
@@ -59,7 +61,7 @@ export default class LoginView extends React.Component {
                     </div>
                     <button type="submit">Войти</button>
                 </form>
-            </>
+            </div>
         );
     }
 }
