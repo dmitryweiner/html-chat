@@ -8,7 +8,7 @@ import Chat from './Chat';
 class ChatList extends React.Component {
     render() {
         return (
-            <ul>
+            <ul className="chat-list">
                 {this.props.list.map(chat => (
                     <Chat
                         userId={this.props.userId}

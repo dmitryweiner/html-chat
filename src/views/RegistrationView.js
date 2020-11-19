@@ -25,7 +25,7 @@ export default class RegistrationView extends React.Component {
         const { error, result } = this.state;
 
         return (
-            <div className="registration">
+            <div className="registration-view">
                 <h1>Регистрация</h1>
                 {error && (
                     <div className="error">

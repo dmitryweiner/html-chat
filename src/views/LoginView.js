@@ -31,11 +31,13 @@ export default class LoginView extends React.Component {
     }
 
     render() {
+        const { error, result } = this.state;
+
         return (
-            <div className="login">
+            <div className="login-view">
                 <h1>Логин</h1>
-                {this.state.error}
-                {this.state.result && <div className="result">{this.state.result}</div>}
+                {error}
+                {result && <div className="result">{result}</div>}
                 <form onSubmit={e => this.handleSubmit(e)}>
                     <div>
                         <label>
