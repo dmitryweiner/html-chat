@@ -25,10 +25,14 @@ export default class RegistrationView extends React.Component {
         const { error, result } = this.state;
 
         return (
-            <>
+            <div className="registration">
                 <h1>Регистрация</h1>
-                <div>{error && <span style={{ color: 'red' }}>{error}</span>}</div>
-                {result}
+                {error && (
+                    <div className="error">
+                        <span style={{ color: 'red' }}>{error}</span>
+                    </div>
+                )}
+                {result && <div className="result">{result}</div>}
                 <Formik
                     initialValues={{ nickname: '', password: '' }}
                     validate={values => {
@@ -84,7 +88,7 @@ export default class RegistrationView extends React.Component {
                         </form>
                     )}
                 </Formik>
-            </>
+            </div>
         );
     }
 }

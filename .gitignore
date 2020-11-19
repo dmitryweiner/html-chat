@@ -4,3 +4,4 @@ build/
 storybook-static/
 .loki/
 chromedriver.log
+tests_output/
