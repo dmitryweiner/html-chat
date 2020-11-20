@@ -24,10 +24,17 @@ export default class LoginView extends React.Component {
             })
             .then(() => {
                 this.setState({ result: 'Пользователь успешно залогинился' });
-                setTimeout(() => this.props.history.push('/profile'), 2000);
+                setTimeout(() => this.redirectAfterLogin(), 2000);
             })
             .catch(error => this.setState({ error: 'Ошибка' + error.response.data.error }));
         e.preventDefault();
+    }
+
+    redirectAfterLogin() {
+        const redirectUrl = this.props.location?.state.from.pathname
+            ? this.props.location.state.from.pathname
+            : '/profile';
+        this.props.updateAuthHandler().then(() => this.props.history.push(redirectUrl));
     }
 
     render() {
