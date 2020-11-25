@@ -1,5 +1,5 @@
 import React from 'react';
-import apiService from '../apiService';
+import apiService from '@/apiService';
 
 export default class LoginView extends React.Component {
     constructor(props) {

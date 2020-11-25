@@ -1,8 +1,8 @@
 import React from 'react';
-import apiService from '../apiService';
-import ChatForm from '../components/ChatForm';
-import ChatList from '../components/ChatList';
-import SearchChatForm from '../components/SearchChatForm';
+import apiService from '@/apiService';
+import ChatForm from '@/components/ChatForm';
+import ChatList from '@/components/ChatList';
+import SearchChatForm from '@/components/SearchChatForm';
 
 export default class ProfileView extends React.Component {
     constructor(props) {

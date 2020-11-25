@@ -1,6 +1,6 @@
 import React from 'react';
 import { Formik } from 'formik';
-import apiService from '../apiService';
+import apiService from '@/apiService';
 
 export default class RegistrationView extends React.Component {
     constructor(props) {
