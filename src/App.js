@@ -5,6 +5,7 @@ import RegistrationView from './views/RegistrationView';
 import ChatView from './views/ChatView';
 import ProfileView from './views/ProfileView';
 import apiService from './apiService';
+import ChatSearchView from '@/views/ChatSearchView';
 
 class PrivateRoute extends React.Component {
     render() {
@@ -69,6 +70,7 @@ class App extends React.Component {
                 {user ? (
                     <>
                         <Link to="/profile">Профиль {user.nickname}</Link>&nbsp;
+                        <Link to="/chatSearch">Поиск чатов</Link>&nbsp;
                         <button onClick={() => this.logoutHandler()}>Выйти</button>
                     </>
                 ) : (
@@ -90,6 +92,12 @@ class App extends React.Component {
                         path="/profile"
                         user={user}
                         component={ProfileView}
+                        componentProps={{ user }}
+                    />
+                    <PrivateRoute
+                        path="/chatSearch"
+                        user={user}
+                        component={ChatSearchView}
                         componentProps={{ user }}
                     />
                     <Redirect exact from="/" to="/profile" />

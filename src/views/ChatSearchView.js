@@ -1,31 +1,33 @@
 import React from 'react';
-import apiService from '@/apiService';
-import ChatForm from '@/components/ChatForm';
+import SearchChatForm from '@/components/SearchChatForm';
 import ChatList from '@/components/ChatList';
+import apiService from '@/apiService';
 
-export default class ProfileView extends React.Component {
+export default class ChatSearchView extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            chats: []
+            title: '',
+            foundChats: []
         };
-    }
-
-    componentDidMount() {
-        this.getChatList();
-    }
-
-    handleChatCreate(params) {
-        apiService.chat.create(params).then(() => this.getChatList());
     }
 
     getChatList() {
         apiService.chat
-            .getMyChats(this.props.user.id)
+            .search(this.state.title)
             .then(response => response.data)
-            .then(chats => this.setState({ chats }));
+            .then(foundChats => this.setState({ foundChats }));
     }
 
+    handleChatSearch({ title }) {
+        this.setState({ title });
+        apiService.chat
+            .search(title)
+            .then(response => response.data)
+            .then(foundChats => this.setState({ foundChats }));
+    }
+
+    // TODO: remove copy/paste
     goHandler(id) {
         this.props.history.push(`/chat/${id}`);
     }
@@ -46,19 +48,15 @@ export default class ProfileView extends React.Component {
         const { user } = this.props;
         return (
             <>
-                <h1>Профиль пользователя</h1>
-                <div>Никнейм: {user.nickname}</div>
-                <div>Создан: {new Date(user.createdAt).toLocaleString()}</div>
-
-                <h3>Мои чаты</h3>
+                <h1>Поиск чатов</h1>
+                <SearchChatForm handleSubmit={data => this.handleChatSearch(data)} />
                 <ChatList
                     userId={user.id}
-                    list={this.state.chats}
+                    list={this.state.foundChats}
                     goHandler={id => this.goHandler(id)}
                     joinHandler={id => this.joinHandler(id)}
                     deleteHandler={id => this.deleteHandler(id)}
                 />
-                <ChatForm handleSubmit={data => this.handleChatCreate(data)} />
             </>
         );
     }
