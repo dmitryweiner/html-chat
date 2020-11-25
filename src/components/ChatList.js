@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Chat from './Chat';
+import Chat from '@/components/Chat';
 
 /**
  * Компонент для отображения списка чатов
