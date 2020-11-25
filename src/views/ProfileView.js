@@ -17,8 +17,8 @@ export default class ProfileView extends React.Component {
         this.getChatList();
     }
 
-    handleChatCreate({ title }) {
-        apiService.chat.create({ title }).then(() => this.getChatList());
+    handleChatCreate(params) {
+        apiService.chat.create(params).then(() => this.getChatList());
     }
 
     getChatList() {
