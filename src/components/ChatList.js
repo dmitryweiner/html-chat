@@ -7,6 +7,10 @@ import Chat from './Chat';
  */
 class ChatList extends React.Component {
     render() {
+        if (!this.props.list.length) {
+            return <span>Список чатов пуст</span>;
+        }
+
         return (
             <ul className="chat-list">
                 {this.props.list.map(chat => (
