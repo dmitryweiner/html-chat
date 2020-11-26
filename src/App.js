@@ -7,6 +7,7 @@ import ProfileView from './views/ProfileView';
 import apiService from './apiService';
 import ChatSearchView from '@/views/ChatSearchView';
 import UserSearchView from '@/views/UserSearchView';
+import Container from '@material-ui/core/Container';
 
 class PrivateRoute extends React.Component {
     render() {
@@ -67,7 +68,7 @@ class App extends React.Component {
         }
 
         return (
-            <>
+            <Container maxWidth="md">
                 {user ? (
                     <>
                         <Link to="/profile">Профиль {user.nickname}</Link>&nbsp;
@@ -110,7 +111,7 @@ class App extends React.Component {
                     />
                     <Redirect exact from="/" to="/profile" />
                 </Switch>
-            </>
+            </Container>
         );
     }
 }

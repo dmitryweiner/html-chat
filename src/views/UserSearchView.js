@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import apiService from '@/apiService';
 import UserList from '@/components/UserList';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
 
 export default class UserSearchView extends Component {
     constructor(props) {
@@ -54,21 +58,27 @@ export default class UserSearchView extends Component {
 
         return (
             <>
-                <h1>Поиск пользователей</h1>
+                <Typography variant="h4" gutterBottom>
+                    Поиск пользователей
+                </Typography>
                 <form onSubmit={e => this.handleSubmit(e)}>
                     <div>{error && <span style={{ color: 'red' }}>{error}</span>}</div>
-                    <div>
-                        <label>
-                            Ник:
-                            <input
-                                value={nickname}
-                                type="text"
+                    <Grid container spacing={3} alignItems="center">
+                        <Grid item xs={6}>
+                            <TextField
+                                fullWidth
                                 name="chat-title"
+                                label="Ник"
+                                value={nickname}
                                 onChange={event => this.setState({ nickname: event.target.value })}
                             />
-                        </label>
-                    </div>
-                    <button type="submit">Искать</button>
+                        </Grid>
+                        <Grid item xs={3}>
+                            <Button variant="contained" type="submit">
+                                Искать
+                            </Button>
+                        </Grid>
+                    </Grid>
                 </form>
                 <UserList list={foundUsers} handleClick={id => this.handleStartDialogue(id)} />
             </>
