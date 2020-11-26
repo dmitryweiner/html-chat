@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 /**
  * Компонент для отображения чата в списке чатов
+ * @class Chat
  */
 class Chat extends React.Component {
     isOwner() {

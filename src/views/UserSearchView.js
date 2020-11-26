@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import apiService from '@/apiService';
+import UserList from '@/components/UserList';
 
 export default class UserSearchView extends Component {
     constructor(props) {
@@ -54,7 +55,7 @@ export default class UserSearchView extends Component {
         return (
             <>
                 <h1>Поиск пользователей</h1>
-                <form className="chat-form" onSubmit={e => this.handleSubmit(e)}>
+                <form onSubmit={e => this.handleSubmit(e)}>
                     <div>{error && <span style={{ color: 'red' }}>{error}</span>}</div>
                     <div>
                         <label>
@@ -69,18 +70,7 @@ export default class UserSearchView extends Component {
                     </div>
                     <button type="submit">Искать</button>
                 </form>
-                <ul>
-                    {foundUsers.map(user => (
-                        <li key={user.id}>
-                            {user.nickname}&nbsp;
-                            {user.id !== this.props.user.id && (
-                                <button onClick={() => this.handleStartDialogue(user.id)}>
-                                    диалог
-                                </button>
-                            )}
-                        </li>
-                    ))}
-                </ul>
+                <UserList list={foundUsers} handleClick={id => this.handleStartDialogue(id)} />
             </>
         );
     }
