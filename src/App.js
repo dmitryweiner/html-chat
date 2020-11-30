@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { Switch, Route, Redirect, Link } from 'react-router-dom';
-import LoginView from './views/LoginView';
+const LoginView = React.lazy(() => import(/* webpackPreload: true */ './views/LoginView'));
 import RegistrationView from './views/RegistrationView';
 import ChatView from './views/ChatView';
-import ProfileView from './views/ProfileView';
+const ProfileView = React.lazy(() => import(/* webpackPreload: true */ './views/ProfileView'));
 import apiService from './apiService';
 import ChatSearchView from '@/views/ChatSearchView';
 import UserSearchView from '@/views/UserSearchView';
@@ -11,13 +11,13 @@ import Container from '@material-ui/core/Container';
 
 class PrivateRoute extends React.Component {
     render() {
-        const { user, component: Component, componentProps, ...rest } = this.props;
+        const { user, children, ...rest } = this.props;
         return (
             <Route
                 {...rest}
                 render={routeProps =>
                     user ? (
-                        <Component {...componentProps} {...routeProps} />
+                        React.cloneElement(children, { ...routeProps })
                     ) : (
                         <Redirect
                             to={{
@@ -31,6 +31,8 @@ class PrivateRoute extends React.Component {
         );
     }
 }
+
+const Loader = () => <>Loading</>;
 
 class App extends React.Component {
     constructor(props) {
@@ -64,7 +66,7 @@ class App extends React.Component {
         const { user, initDone } = this.state;
 
         if (!initDone) {
-            return <>Loading...</>;
+            return <Loader />;
         }
 
         return (
@@ -86,17 +88,21 @@ class App extends React.Component {
                     <Route
                         path="/login"
                         render={routeProps => (
-                            <LoginView updateAuthHandler={this.updateAuthState} {...routeProps} />
+                            <Suspense fallback={<Loader />}>
+                                <LoginView
+                                    updateAuthHandler={this.updateAuthState}
+                                    {...routeProps}
+                                />
+                            </Suspense>
                         )}
                     />
                     <Route path="/registration" component={RegistrationView} />
                     <PrivateRoute path="/chat/:id" user={user} component={ChatView} />
-                    <PrivateRoute
-                        path="/profile"
-                        user={user}
-                        component={ProfileView}
-                        componentProps={{ user }}
-                    />
+                    <PrivateRoute path="/profile" user={user}>
+                        <Suspense fallback={<Loader />}>
+                            <ProfileView user={user} />
+                        </Suspense>
+                    </PrivateRoute>
                     <PrivateRoute
                         path="/chatSearch"
                         user={user}
