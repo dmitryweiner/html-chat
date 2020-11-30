@@ -66,5 +66,9 @@ module.exports = {
         splitChunks: {
             chunks: 'all'
         }
+    },
+    performance: {
+        maxEntrypointSize: 500 * 1024,
+        maxAssetSize: 500 * 1024
     }
 };
