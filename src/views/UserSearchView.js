@@ -44,13 +44,23 @@ export default class UserSearchView extends Component {
     }
 
     handleStartDialogue(userId) {
+        const redirectToChat = chatId => {
+            this.props.history.push(`/chat/${chatId}`);
+        };
+
         apiService.chat
             .create({
                 isDialogue: true,
                 participants: [userId]
             })
             .then(response => response.data)
-            .then(chat => this.props.history.push(`/chat/${chat.id}`));
+            .then(chat => redirectToChat(chat.id))
+            .catch(error => {
+                if (error.response.status === 303) {
+                    return error.response.data;
+                }
+            })
+            .then(chat => (chat ? redirectToChat(chat.id) : null));
     }
 
     render() {
