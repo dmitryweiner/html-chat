@@ -120,11 +120,9 @@ class App extends React.Component {
                                 logoutHandler={() => this.logoutHandler()}
                                 title="Логин"
                                 user={user}
+                                {...routeProps}
                             >
-                                <LoginView
-                                    updateAuthHandler={this.updateAuthState}
-                                    {...routeProps}
-                                />
+                                <LoginView updateAuthHandler={this.updateAuthState} />
                             </ViewHeader>
                         )}
                     />
@@ -136,8 +134,9 @@ class App extends React.Component {
                                 logoutHandler={() => this.logoutHandler()}
                                 title="Регистрация"
                                 user={user}
+                                {...routeProps}
                             >
-                                <RegistrationView {...routeProps} />
+                                <RegistrationView />
                             </ViewHeader>
                         )}
                     />
