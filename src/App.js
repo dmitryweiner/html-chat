@@ -8,6 +8,8 @@ import apiService from './apiService';
 import ChatSearchView from '@/views/ChatSearchView';
 import UserSearchView from '@/views/UserSearchView';
 import ViewHeader from '@/views/ViewHeader';
+import { Drawer, ListItem, ListItemText } from '@material-ui/core';
+import List from '@material-ui/core/List';
 
 class PrivateRoute extends React.Component {
     render() {
@@ -37,7 +39,8 @@ class App extends React.Component {
         super(props);
         this.state = {
             user: null,
-            initDone: false
+            initDone: false,
+            isDrawerOpen: false
         };
         this.updateAuthState = this.updateAuthState.bind(this);
     }
@@ -60,8 +63,12 @@ class App extends React.Component {
         });
     }
 
+    drawerHandler(isDrawerOpen) {
+        this.setState({ isDrawerOpen });
+    }
+
     render() {
-        const { user, initDone } = this.state;
+        const { user, initDone, isDrawerOpen } = this.state;
 
         if (!initDone) {
             return <>Loading...</>;
@@ -69,25 +76,47 @@ class App extends React.Component {
 
         return (
             <>
-                {user ? (
-                    <>
-                        <Link to="/profile">Профиль {user.nickname}</Link>&nbsp;
-                        <Link to="/chatSearch">Поиск чатов</Link>&nbsp;
-                        <Link to="/userSearch">Поиск пользователей</Link>&nbsp;
-                        <button onClick={() => this.logoutHandler()}>Выйти</button>
-                    </>
-                ) : (
-                    <>
-                        <Link to="/login">Логин</Link>&nbsp;
-                        <Link to="/registration">Регистрация</Link>&nbsp;
-                    </>
-                )}
+                <Drawer anchor="left" open={isDrawerOpen} onClose={() => this.drawerHandler(false)}>
+                    <div
+                        role="presentation"
+                        onClick={() => this.drawerHandler(false)}
+                        onKeyDown={() => this.drawerHandler(false)}
+                    >
+                        <List>
+                            {user ? (
+                                <>
+                                    <ListItem button component={Link} to="/profile">
+                                        <ListItemText primary="Профиль" />
+                                    </ListItem>
+                                    <ListItem button component={Link} to="/chatSearch">
+                                        <ListItemText primary="Поиск чатов" />
+                                    </ListItem>
+                                    <ListItem button component={Link} to="/userSearch">
+                                        <ListItemText primary="Поиск пользователей" />
+                                    </ListItem>
+                                    <ListItem button onClick={() => this.logoutHandler()}>
+                                        <ListItemText primary="Выход" />
+                                    </ListItem>
+                                </>
+                            ) : (
+                                <>
+                                    <ListItem button component={Link} to="/login">
+                                        <ListItemText primary="Логин" />
+                                    </ListItem>
+                                    <ListItem button component={Link} to="/registration">
+                                        <ListItemText primary="Регистрация" />
+                                    </ListItem>
+                                </>
+                            )}
+                        </List>
+                    </div>
+                </Drawer>
                 <Switch>
                     <Route
                         path="/login"
                         render={routeProps => (
                             <ViewHeader
-                                menuHandler={() => {}}
+                                menuHandler={() => this.drawerHandler(true)}
                                 logoutHandler={() => this.logoutHandler()}
                                 title="Логин"
                                 user={user}
@@ -103,7 +132,7 @@ class App extends React.Component {
                         path="/registration"
                         render={routeProps => (
                             <ViewHeader
-                                menuHandler={() => {}}
+                                menuHandler={() => this.drawerHandler(true)}
                                 logoutHandler={() => this.logoutHandler()}
                                 title="Регистрация"
                                 user={user}
@@ -114,7 +143,7 @@ class App extends React.Component {
                     />
                     <PrivateRoute path="/chat/:id" user={user}>
                         <ViewHeader
-                            menuHandler={() => {}}
+                            menuHandler={() => this.drawerHandler(true)}
                             logoutHandler={() => this.logoutHandler()}
                             title="Чат"
                             user={user}
@@ -124,7 +153,7 @@ class App extends React.Component {
                     </PrivateRoute>
                     <PrivateRoute path="/profile" user={user}>
                         <ViewHeader
-                            menuHandler={() => {}}
+                            menuHandler={() => this.drawerHandler(true)}
                             logoutHandler={() => this.logoutHandler()}
                             title="Профиль"
                             user={user}
@@ -134,7 +163,7 @@ class App extends React.Component {
                     </PrivateRoute>
                     <PrivateRoute path="/chatSearch" user={user}>
                         <ViewHeader
-                            menuHandler={() => {}}
+                            menuHandler={() => this.drawerHandler(true)}
                             logoutHandler={() => this.logoutHandler()}
                             title="Поиск чатов"
                             user={user}
@@ -144,7 +173,7 @@ class App extends React.Component {
                     </PrivateRoute>
                     <PrivateRoute path="/userSearch" user={user}>
                         <ViewHeader
-                            menuHandler={() => {}}
+                            menuHandler={() => this.drawerHandler(true)}
                             logoutHandler={() => this.logoutHandler()}
                             title="Поиск пользователей"
                             user={user}
