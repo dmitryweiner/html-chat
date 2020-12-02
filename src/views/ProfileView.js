@@ -46,7 +46,6 @@ export default class ProfileView extends React.Component {
         const { user } = this.props;
         return (
             <>
-                <h1>Профиль пользователя</h1>
                 <div>Никнейм: {user.nickname}</div>
                 <div>Создан: {new Date(user.createdAt).toLocaleString()}</div>
 

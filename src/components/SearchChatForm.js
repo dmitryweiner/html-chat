@@ -37,7 +37,6 @@ class SearchChatForm extends React.Component {
 
         return (
             <>
-                <h4>Поиск чата</h4>
                 <form onSubmit={e => this.handleSubmit(e)}>
                     <div>{error && <span style={{ color: 'red' }}>{error}</span>}</div>
                     <div>

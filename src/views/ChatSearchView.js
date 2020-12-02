@@ -48,7 +48,6 @@ export default class ChatSearchView extends React.Component {
         const { user } = this.props;
         return (
             <>
-                <h1>Поиск чатов</h1>
                 <SearchChatForm handleSubmit={data => this.handleChatSearch(data)} />
                 <ChatList
                     userId={user.id}

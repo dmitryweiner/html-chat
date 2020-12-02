@@ -63,7 +63,6 @@ class ChatView extends React.Component {
         const { messages } = this.state;
         return (
             <div className="chat-view">
-                <h1>Чат</h1>
                 <MessageForm postMessage={data => this.postMessage(data)} />
                 <MessagesList messages={messages} />
             </div>

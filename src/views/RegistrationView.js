@@ -26,7 +26,6 @@ export default class RegistrationView extends React.Component {
 
         return (
             <div className="registration-view">
-                <h1>Регистрация</h1>
                 {error && (
                     <div className="error">
                         <span style={{ color: 'red' }}>{error}</span>

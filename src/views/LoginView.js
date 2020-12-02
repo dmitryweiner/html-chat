@@ -42,7 +42,6 @@ export default class LoginView extends React.Component {
 
         return (
             <div className="login-view">
-                <h1>Логин</h1>
                 {error}
                 {result && <div className="result">{result}</div>}
                 <form onSubmit={e => this.handleSubmit(e)}>

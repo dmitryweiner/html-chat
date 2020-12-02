@@ -7,7 +7,7 @@ import ProfileView from './views/ProfileView';
 import apiService from './apiService';
 import ChatSearchView from '@/views/ChatSearchView';
 import UserSearchView from '@/views/UserSearchView';
-import Container from '@material-ui/core/Container';
+import ViewHeader from '@/views/ViewHeader';
 
 class PrivateRoute extends React.Component {
     render() {
@@ -68,7 +68,7 @@ class App extends React.Component {
         }
 
         return (
-            <Container maxWidth="md">
+            <>
                 {user ? (
                     <>
                         <Link to="/profile">Профиль {user.nickname}</Link>&nbsp;
@@ -86,25 +86,75 @@ class App extends React.Component {
                     <Route
                         path="/login"
                         render={routeProps => (
-                            <LoginView updateAuthHandler={this.updateAuthState} {...routeProps} />
+                            <ViewHeader
+                                menuHandler={() => {}}
+                                logoutHandler={() => this.logoutHandler()}
+                                title="Логин"
+                                user={user}
+                            >
+                                <LoginView
+                                    updateAuthHandler={this.updateAuthState}
+                                    {...routeProps}
+                                />
+                            </ViewHeader>
                         )}
                     />
-                    <Route path="/registration" component={RegistrationView} />
+                    <Route
+                        path="/registration"
+                        render={routeProps => (
+                            <ViewHeader
+                                menuHandler={() => {}}
+                                logoutHandler={() => this.logoutHandler()}
+                                title="Регистрация"
+                                user={user}
+                            >
+                                <RegistrationView {...routeProps} />
+                            </ViewHeader>
+                        )}
+                    />
                     <PrivateRoute path="/chat/:id" user={user}>
-                        <ChatView />
+                        <ViewHeader
+                            menuHandler={() => {}}
+                            logoutHandler={() => this.logoutHandler()}
+                            title="Чат"
+                            user={user}
+                        >
+                            <ChatView />
+                        </ViewHeader>
                     </PrivateRoute>
                     <PrivateRoute path="/profile" user={user}>
-                        <ProfileView />
+                        <ViewHeader
+                            menuHandler={() => {}}
+                            logoutHandler={() => this.logoutHandler()}
+                            title="Профиль"
+                            user={user}
+                        >
+                            <ProfileView />
+                        </ViewHeader>
                     </PrivateRoute>
                     <PrivateRoute path="/chatSearch" user={user}>
-                        <ChatSearchView />
+                        <ViewHeader
+                            menuHandler={() => {}}
+                            logoutHandler={() => this.logoutHandler()}
+                            title="Поиск чатов"
+                            user={user}
+                        >
+                            <ChatSearchView />
+                        </ViewHeader>
                     </PrivateRoute>
                     <PrivateRoute path="/userSearch" user={user}>
-                        <UserSearchView />
+                        <ViewHeader
+                            menuHandler={() => {}}
+                            logoutHandler={() => this.logoutHandler()}
+                            title="Поиск пользователей"
+                            user={user}
+                        >
+                            <UserSearchView />
+                        </ViewHeader>
                     </PrivateRoute>
                     <Redirect exact from="/" to="/profile" />
                 </Switch>
-            </Container>
+            </>
         );
     }
 }

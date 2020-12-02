@@ -4,7 +4,6 @@ import UserList from '@/components/UserList';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
 
 export default class UserSearchView extends Component {
     constructor(props) {
@@ -68,9 +67,6 @@ export default class UserSearchView extends Component {
 
         return (
             <>
-                <Typography variant="h4" gutterBottom>
-                    Поиск пользователей
-                </Typography>
                 <form onSubmit={e => this.handleSubmit(e)}>
                     <div>{error && <span style={{ color: 'red' }}>{error}</span>}</div>
                     <Grid container spacing={3} alignItems="center">
