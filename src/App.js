@@ -11,13 +11,13 @@ import Container from '@material-ui/core/Container';
 
 class PrivateRoute extends React.Component {
     render() {
-        const { user, component: Component, componentProps, ...rest } = this.props;
+        const { user, children, ...rest } = this.props;
         return (
             <Route
                 {...rest}
                 render={routeProps =>
                     user ? (
-                        <Component {...componentProps} {...routeProps} />
+                        React.cloneElement(children, { ...routeProps, user })
                     ) : (
                         <Redirect
                             to={{
@@ -90,25 +90,18 @@ class App extends React.Component {
                         )}
                     />
                     <Route path="/registration" component={RegistrationView} />
-                    <PrivateRoute path="/chat/:id" user={user} component={ChatView} />
-                    <PrivateRoute
-                        path="/profile"
-                        user={user}
-                        component={ProfileView}
-                        componentProps={{ user }}
-                    />
-                    <PrivateRoute
-                        path="/chatSearch"
-                        user={user}
-                        component={ChatSearchView}
-                        componentProps={{ user }}
-                    />
-                    <PrivateRoute
-                        path="/userSearch"
-                        user={user}
-                        component={UserSearchView}
-                        componentProps={{ user }}
-                    />
+                    <PrivateRoute path="/chat/:id" user={user}>
+                        <ChatView />
+                    </PrivateRoute>
+                    <PrivateRoute path="/profile" user={user}>
+                        <ProfileView />
+                    </PrivateRoute>
+                    <PrivateRoute path="/chatSearch" user={user}>
+                        <ChatSearchView />
+                    </PrivateRoute>
+                    <PrivateRoute path="/userSearch" user={user}>
+                        <UserSearchView />
+                    </PrivateRoute>
                     <Redirect exact from="/" to="/profile" />
                 </Switch>
             </Container>
