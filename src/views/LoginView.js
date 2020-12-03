@@ -1,5 +1,12 @@
 import React from 'react';
 import apiService from '@/apiService';
+import Grid from '@material-ui/core/Grid';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
+import { Card, CardContent } from '@material-ui/core';
+import { Link } from 'react-router-dom';
+import Alert from '@material-ui/lab/Alert';
 
 export default class LoginView extends React.Component {
     constructor(props) {
@@ -8,15 +15,43 @@ export default class LoginView extends React.Component {
             nickname: '',
             password: '',
             result: null,
-            error: null
+            error: null,
+            formErrors: {
+                nickname: null,
+                password: null
+            }
         };
     }
 
+    validate() {
+        const formErrors = {};
+        let noErrors = true;
+        if (this.state.nickname.length === 0) {
+            formErrors.nickname = 'Введите никнейм';
+            noErrors = false;
+        }
+
+        if (this.state.password.length === 0) {
+            formErrors.password = 'Введите пароль';
+            noErrors = false;
+        }
+
+        this.setState({ formErrors });
+        return noErrors;
+    }
+
     handleSubmit(e) {
+        e.preventDefault();
+
         this.setState({
             result: null,
             error: null
         });
+
+        if (!this.validate()) {
+            return;
+        }
+
         apiService.auth
             .login({
                 nickname: this.state.nickname,
@@ -26,8 +61,7 @@ export default class LoginView extends React.Component {
                 this.setState({ result: 'Пользователь успешно залогинился' });
                 setTimeout(() => this.redirectAfterLogin(), 2000);
             })
-            .catch(error => this.setState({ error: 'Ошибка' + error.response.data.error }));
-        e.preventDefault();
+            .catch(error => this.setState({ error: 'Ошибка: ' + error.response.data.error }));
     }
 
     redirectAfterLogin() {
@@ -38,37 +72,77 @@ export default class LoginView extends React.Component {
     }
 
     render() {
-        const { error, result } = this.state;
+        const { error, result, nickname, password, formErrors } = this.state;
 
         return (
             <div className="login-view">
-                {error}
-                {result && <div className="result">{result}</div>}
-                <form onSubmit={e => this.handleSubmit(e)}>
-                    <div>
-                        <label>
-                            Никнейм:&nbsp;
-                            <input
-                                type="text"
-                                name="nickname"
-                                value={this.state.nickname}
-                                onChange={e => this.setState({ nickname: e.target.value })}
-                            />
-                        </label>
-                    </div>
-                    <div>
-                        <label>
-                            Пароль:&nbsp;
-                            <input
-                                type="password"
-                                name="password"
-                                value={this.state.password}
-                                onChange={e => this.setState({ password: e.target.value })}
-                            />
-                        </label>
-                    </div>
-                    <button type="submit">Войти</button>
-                </form>
+                <Grid
+                    container
+                    spacing={0}
+                    direction="column"
+                    alignItems="center"
+                    justify="center"
+                    style={{ minHeight: '100vh', marginTop: '-60px' }}
+                >
+                    <Grid item xs={4}>
+                        <Card>
+                            <CardContent>
+                                {result && <div className="result">{result}</div>}
+                                <form onSubmit={e => this.handleSubmit(e)}>
+                                    <Grid container spacing={3}>
+                                        <Grid item xs={12}>
+                                            {error && <Alert severity="error">{error}</Alert>}
+                                            {result && <Alert severity="info">{result}</Alert>}
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                            <TextField
+                                                error={formErrors.nickname}
+                                                helperText={formErrors.nickname}
+                                                fullWidth
+                                                name="nickname"
+                                                label="Никнейм"
+                                                value={nickname}
+                                                onChange={e =>
+                                                    this.setState({ nickname: e.target.value })
+                                                }
+                                            />
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                            <TextField
+                                                error={formErrors.password}
+                                                helperText={formErrors.password}
+                                                fullWidth
+                                                name="password"
+                                                label="Пароль"
+                                                value={password}
+                                                onChange={e =>
+                                                    this.setState({ password: e.target.value })
+                                                }
+                                            />
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                            <Button
+                                                fullWidth
+                                                type="submit"
+                                                variant="contained"
+                                                color="primary"
+                                            >
+                                                Войти
+                                            </Button>
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                            <Typography variant="body1">
+                                                Введите свои логин и пароль. Если вы ещё не
+                                                зарегистрированы, то{' '}
+                                                <Link to="/registration">зарегистрируйтесь</Link>.
+                                            </Typography>
+                                        </Grid>
+                                    </Grid>
+                                </form>
+                            </CardContent>
+                        </Card>
+                    </Grid>
+                </Grid>
             </div>
         );
     }
