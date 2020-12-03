@@ -87,7 +87,6 @@ export default class LoginView extends React.Component {
                     <Grid item lg={4} sm={12}>
                         <Card>
                             <CardContent>
-                                {result && <div className="result">{result}</div>}
                                 <form onSubmit={e => this.handleSubmit(e)}>
                                     <Grid container spacing={3}>
                                         <Grid item xs={12}>
