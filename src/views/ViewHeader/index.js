@@ -38,7 +38,7 @@ export default class ViewHeader extends React.Component {
         return (
             <>
                 <div className={styles.root}>
-                    <AppBar position="static">
+                    <AppBar position="fixed">
                         <Toolbar>
                             <IconButton
                                 edge="start"
