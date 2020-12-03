@@ -84,7 +84,7 @@ export default class LoginView extends React.Component {
                     justify="center"
                     style={{ minHeight: '100vh', marginTop: '-60px' }}
                 >
-                    <Grid item xs={4}>
+                    <Grid item lg={4} sm={12}>
                         <Card>
                             <CardContent>
                                 {result && <div className="result">{result}</div>}
