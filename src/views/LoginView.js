@@ -113,6 +113,7 @@ export default class LoginView extends React.Component {
                                                 fullWidth
                                                 name="password"
                                                 label="Пароль"
+                                                type="password"
                                                 value={password}
                                                 onChange={e =>
                                                     this.setState({ password: e.target.value })
