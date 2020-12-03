@@ -8,8 +8,9 @@ import apiService from './apiService';
 import ChatSearchView from '@/views/ChatSearchView';
 import UserSearchView from '@/views/UserSearchView';
 import ViewHeader from '@/views/ViewHeader';
-import { Drawer, ListItem, ListItemText } from '@material-ui/core';
+import { Drawer, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
 import List from '@material-ui/core/List';
+import { AccountCircle, GroupAdd, MeetingRoom, PersonAdd, Search } from '@material-ui/icons';
 
 class PrivateRoute extends React.Component {
     render() {
@@ -86,24 +87,42 @@ class App extends React.Component {
                             {user ? (
                                 <>
                                     <ListItem button component={Link} to="/profile">
+                                        <ListItemIcon>
+                                            <AccountCircle />
+                                        </ListItemIcon>
                                         <ListItemText primary="Профиль" />
                                     </ListItem>
                                     <ListItem button component={Link} to="/chatSearch">
+                                        <ListItemIcon>
+                                            <Search />
+                                        </ListItemIcon>
                                         <ListItemText primary="Поиск чатов" />
                                     </ListItem>
                                     <ListItem button component={Link} to="/userSearch">
+                                        <ListItemIcon>
+                                            <GroupAdd />
+                                        </ListItemIcon>
                                         <ListItemText primary="Поиск пользователей" />
                                     </ListItem>
                                     <ListItem button onClick={() => this.logoutHandler()}>
+                                        <ListItemIcon>
+                                            <MeetingRoom />
+                                        </ListItemIcon>
                                         <ListItemText primary="Выход" />
                                     </ListItem>
                                 </>
                             ) : (
                                 <>
                                     <ListItem button component={Link} to="/login">
+                                        <ListItemIcon>
+                                            <AccountCircle />
+                                        </ListItemIcon>
                                         <ListItemText primary="Логин" />
                                     </ListItem>
                                     <ListItem button component={Link} to="/registration">
+                                        <ListItemIcon>
+                                            <PersonAdd />
+                                        </ListItemIcon>
                                         <ListItemText primary="Регистрация" />
                                     </ListItem>
                                 </>

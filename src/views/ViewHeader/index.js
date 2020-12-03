@@ -86,7 +86,7 @@ export default class ViewHeader extends React.Component {
                                 </>
                             ) : (
                                 <Button color="inherit" onClick={() => history.push('/login')}>
-                                    Login
+                                    Логин
                                 </Button>
                             )}
                         </Toolbar>
