@@ -13,18 +13,12 @@ export default class ChatSearchView extends React.Component {
     }
 
     getChatList() {
-        apiService.chat
-            .search(this.state.title)
-            .then(response => response.data)
-            .then(foundChats => this.setState({ foundChats }));
+        apiService.chat.search(this.state.title).then(foundChats => this.setState({ foundChats }));
     }
 
     handleChatSearch({ title }) {
         this.setState({ title });
-        apiService.chat
-            .search(title)
-            .then(response => response.data)
-            .then(foundChats => this.setState({ foundChats }));
+        apiService.chat.search(title).then(foundChats => this.setState({ foundChats }));
     }
 
     // TODO: remove copy/paste

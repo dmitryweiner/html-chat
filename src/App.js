@@ -53,7 +53,6 @@ class App extends React.Component {
     updateAuthState() {
         return apiService.user
             .getCurrent()
-            .then(response => response.data)
             .then(user => this.setState({ user, initDone: true }))
             .catch(() => this.setState({ user: null, initDone: true }));
     }

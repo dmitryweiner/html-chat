@@ -42,8 +42,7 @@ class ChatView extends React.Component {
             return serverMessages.filter(message => newIds.includes(message.id));
         }
 
-        const response = await apiService.message.getMessages(this.props.match.params.id);
-        const serverMessages = response.data;
+        const serverMessages = await apiService.message.getMessages(this.props.match.params.id);
         let newMessages = getOnlyNewMessages(serverMessages, this.state.messages);
         await this.getUsers(newMessages);
         newMessages = newMessages.map(message => {
@@ -64,8 +63,8 @@ class ChatView extends React.Component {
 
         const newUsers = [];
         for (let id of toLoad) {
-            const response = await apiService.user.getById(id);
-            newUsers.push(response.data);
+            const user = await apiService.user.getById(id);
+            newUsers.push(user);
         }
         this.setState({ users: [...oldUsers, ...newUsers] });
     }

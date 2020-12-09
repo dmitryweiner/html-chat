@@ -36,7 +36,6 @@ export default class UserSearchView extends Component {
             // поиск пользователей
             apiService.user
                 .find(this.state.nickname)
-                .then(response => response.data)
                 .then(foundUsers => this.setState({ foundUsers, nickname: '' }))
                 .catch(error => this.setState({ error: 'Ошибка: ' + error.response.data.error }));
         }
@@ -52,7 +51,6 @@ export default class UserSearchView extends Component {
                 isDialogue: true,
                 participants: [userId]
             })
-            .then(response => response.data)
             .then(chat => redirectToChat(chat.id))
             .catch(error => {
                 if (error.response.status === 303) {

@@ -20,10 +20,7 @@ export default class ProfileView extends React.Component {
     }
 
     getChatList() {
-        apiService.chat
-            .getMyChats(this.props.user.id)
-            .then(response => response.data)
-            .then(chats => this.setState({ chats }));
+        apiService.chat.getMyChats(this.props.user.id).then(chats => this.setState({ chats }));
     }
 
     goHandler(id) {
