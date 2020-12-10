@@ -2,6 +2,9 @@ import React from 'react';
 import apiService from '@/apiService';
 import ChatForm from '@/components/ChatForm';
 import ChatList from '@/components/ChatList';
+import Typography from '@material-ui/core/Typography';
+import { Box, Card, CardActions, CardContent } from '@material-ui/core';
+import Button from '@material-ui/core/Button';
 
 export default class ProfileView extends React.Component {
     constructor(props) {
@@ -43,10 +46,25 @@ export default class ProfileView extends React.Component {
         const { user } = this.props;
         return (
             <>
-                <div>Никнейм: {user.nickname}</div>
-                <div>Создан: {new Date(user.createdAt).toLocaleString()}</div>
+                <Card>
+                    <CardContent>
+                        <Typography variant="h5" component="h2">
+                            {user.nickname}
+                        </Typography>
+                        <Typography variant="body2" component="p">
+                            Создан: {new Date(user.createdAt).toLocaleString()}
+                        </Typography>
+                    </CardContent>
+                    <CardActions>
+                        <Button size="small">Редактировать</Button>
+                    </CardActions>
+                </Card>
 
-                <h3>Мои чаты</h3>
+                <Box mt={3} mx="auto">
+                    <Typography variant="h6" align="center">
+                        Мои чаты
+                    </Typography>
+                </Box>
                 <ChatList
                     userId={user.id}
                     list={this.state.chats}

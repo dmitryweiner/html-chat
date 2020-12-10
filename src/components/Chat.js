@@ -1,5 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { ListItem, ListItemSecondaryAction, ListItemText } from '@material-ui/core';
+import IconButton from '@material-ui/core/IconButton';
+import DeleteIcon from '@material-ui/icons/Delete';
+import { Edit, MeetingRoom, PersonAdd } from '@material-ui/icons';
 
 /**
  * Компонент для отображения чата в списке чатов
@@ -14,45 +18,52 @@ class Chat extends React.Component {
         return this.props.chat.participants.includes(this.props.userId);
     }
 
-    renderChat() {
+    render() {
         if (this.isOwner()) {
             return (
-                <>
-                    <a href="/" onClick={e => this.innerClickHandle(e)}>
-                        {this.props.chat.title}
-                    </a>
-                    &nbsp;
-                    <button onClick={() => this.props.deleteHandler(this.props.chat.id)}>
-                        удалить
-                    </button>
-                </>
+                <ListItem button onClick={() => this.props.goHandler(this.props.chat.id)}>
+                    <ListItemText>{this.props.chat.title}</ListItemText>
+                    <ListItemSecondaryAction>
+                        <IconButton aria-label="edit">
+                            <Edit />
+                        </IconButton>
+                        <IconButton
+                            edge="end"
+                            aria-label="delete"
+                            onClick={() => this.props.deleteHandler(this.props.chat.id)}
+                        >
+                            <DeleteIcon />
+                        </IconButton>
+                    </ListItemSecondaryAction>
+                </ListItem>
             );
         }
         if (this.isParticipant()) {
             return (
-                <>
-                    <a href="/" onClick={e => this.innerClickHandle(e)}>
-                        {this.props.chat.title}
-                    </a>
-                    {/* TODO: exit button */}
-                </>
+                <ListItem button onClick={() => this.props.goHandler(this.props.chat.id)}>
+                    <ListItemText>{this.props.chat.title}</ListItemText>
+                    <ListItemSecondaryAction>
+                        <IconButton edge="end" aria-label="exit">
+                            <MeetingRoom />
+                        </IconButton>
+                    </ListItemSecondaryAction>
+                </ListItem>
             );
         }
         return (
-            <>
-                <span>{this.props.chat.title}</span>
-                <button onClick={() => this.props.joinHandler(this.props.chat.id)}>вступить</button>
-            </>
+            <ListItem button>
+                <ListItemText>{this.props.chat.title}</ListItemText>
+                <ListItemSecondaryAction>
+                    <IconButton
+                        edge="end"
+                        aria-label="join"
+                        onClick={() => this.props.joinHandler(this.props.chat.id)}
+                    >
+                        <PersonAdd />
+                    </IconButton>
+                </ListItemSecondaryAction>
+            </ListItem>
         );
-    }
-
-    innerClickHandle(e) {
-        e.preventDefault();
-        this.props.goHandler(this.props.chat.id);
-    }
-
-    render() {
-        return <li>{this.renderChat()}</li>;
     }
 }
 
