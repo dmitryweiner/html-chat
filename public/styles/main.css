@@ -1,5 +1,10 @@
-body {
+html, body {
     margin: 0;
+    height: calc(100% - 35px);
+}
+
+#root {
+    height: 100%;
 }
 
 h1 {

@@ -57,7 +57,7 @@ class ChatForm extends React.Component {
                             <Grid container spacing={3}>
                                 <Grid item xs={12}>
                                     <TextField
-                                        error={error}
+                                        error={!!error}
                                         helperText={error}
                                         fullWidth
                                         name="chat-title"

@@ -1,5 +1,5 @@
 .root {
-    flex-grow: 1;
+    height: 100%;
 }
 
 .menuButton {
@@ -12,4 +12,16 @@
 
 .children {
     margin-top: 70px;
+    height: 100%;
+    width: 800px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+@media only screen and (max-width: 800px) {
+    .children {
+        width: 100%;
+        margin-right: 0;
+        margin-left: 0;
+    }
 }

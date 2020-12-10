@@ -2,6 +2,7 @@ import React from 'react';
 import MessageForm from '@/components/MessageForm';
 import MessagesList from '@/components/MessagesList';
 import apiService from '@/apiService';
+import styles from './styles.module.css';
 
 class ChatView extends React.Component {
     constructor() {
@@ -16,8 +17,15 @@ class ChatView extends React.Component {
     }
 
     componentDidMount() {
+        let firstTime = true;
         this.setState({ users: [], messages: [] });
-        this.timer = setInterval(this.getMessages.bind(this), 1000);
+        this.timer = setInterval(async () => {
+            await this.getMessages();
+            if (firstTime) {
+                this.scrollToBottom();
+            }
+            firstTime = false;
+        }, 1000);
     }
 
     componentWillUnmount() {
@@ -27,7 +35,10 @@ class ChatView extends React.Component {
     postMessage({ content }) {
         apiService.message
             .create({ content, chatId: this.props.match.params.id })
-            .then(() => this.getMessages());
+            .then(async () => {
+                await this.getMessages();
+                this.scrollToBottom();
+            });
     }
 
     async getMessages() {
@@ -69,12 +80,26 @@ class ChatView extends React.Component {
         this.setState({ users: [...oldUsers, ...newUsers] });
     }
 
+    scrollToBottom() {
+        this.messagesEnd.scrollIntoView({ behavior: 'smooth' });
+    }
+
     render() {
         const { messages } = this.state;
         return (
-            <div className="chat-view">
-                <MessageForm postMessage={data => this.postMessage(data)} />
-                <MessagesList messages={messages} />
+            <div className={styles.chatView}>
+                <div className={styles.messages}>
+                    <MessagesList messages={messages} />
+                    <div
+                        style={{ float: 'left', clear: 'both' }}
+                        ref={el => {
+                            this.messagesEnd = el;
+                        }}
+                    />
+                </div>
+                <div className={styles.form}>
+                    <MessageForm postMessage={data => this.postMessage(data)} />
+                </div>
             </div>
         );
     }

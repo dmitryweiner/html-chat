@@ -1,0 +1,32 @@
+.chatView {
+    display: flex;
+    flex-flow: column;
+    height: 100%;
+    width: 800px;
+    margin: 0 auto;
+}
+
+.messages {
+    flex: 1 1 auto;
+    overflow-y: auto;
+    min-height: 0;
+}
+
+.form {
+    margin: 20px;
+}
+
+@media only screen and (max-width: 800px) {
+    .chatView {
+        width: 100%;
+        margin: 0;
+    }
+
+    .messages {
+
+    }
+
+    .form {
+        margin: 0;
+    }
+}

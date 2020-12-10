@@ -1,0 +1,14 @@
+.root {
+    margin: 3px;
+    padding: 3px;
+    display: flex;
+    flex-direction: row;
+}
+
+.message {
+    flex: 1 1 auto;
+}
+
+.button {
+
+}
