@@ -34,6 +34,7 @@ class MessageForm extends React.Component {
                             variant="outlined"
                             value={content}
                             onChange={e => this.setState({ content: e.target.value })}
+                            autoFocus
                         />
                     </div>
                     <div className={styles.button}>
