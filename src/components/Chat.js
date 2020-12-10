@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { ListItem, ListItemSecondaryAction, ListItemText } from '@material-ui/core';
+import { ListItem, ListItemIcon, ListItemSecondaryAction, ListItemText } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
-import { Edit, MeetingRoom, PersonAdd } from '@material-ui/icons';
+import { Edit, Group, MeetingRoom, Person, PersonAdd } from '@material-ui/icons';
 
 /**
  * Компонент для отображения чата в списке чатов
@@ -18,10 +18,17 @@ class Chat extends React.Component {
         return this.props.chat.participants.includes(this.props.userId);
     }
 
+    isDialogue() {
+        return this.props.chat.isDialogue;
+    }
+
     render() {
         if (this.isOwner()) {
             return (
                 <ListItem button onClick={() => this.props.goHandler(this.props.chat.id)}>
+                    <ListItemIcon>
+                        <Group />
+                    </ListItemIcon>
                     <ListItemText>{this.props.chat.title}</ListItemText>
                     <ListItemSecondaryAction>
                         <IconButton aria-label="edit">
@@ -38,9 +45,33 @@ class Chat extends React.Component {
                 </ListItem>
             );
         }
+
+        if (this.isDialogue()) {
+            return (
+                <ListItem button onClick={() => this.props.goHandler(this.props.chat.id)}>
+                    <ListItemIcon>
+                        <Person />
+                    </ListItemIcon>
+                    <ListItemText>{this.props.chat.title}</ListItemText>
+                    <ListItemSecondaryAction>
+                        <IconButton
+                            edge="end"
+                            aria-label="delete"
+                            onClick={() => this.props.deleteHandler(this.props.chat.id)}
+                        >
+                            <DeleteIcon />
+                        </IconButton>
+                    </ListItemSecondaryAction>
+                </ListItem>
+            );
+        }
+
         if (this.isParticipant()) {
             return (
                 <ListItem button onClick={() => this.props.goHandler(this.props.chat.id)}>
+                    <ListItemIcon>
+                        <Group />
+                    </ListItemIcon>
                     <ListItemText>{this.props.chat.title}</ListItemText>
                     <ListItemSecondaryAction>
                         <IconButton edge="end" aria-label="exit">
@@ -50,8 +81,12 @@ class Chat extends React.Component {
                 </ListItem>
             );
         }
+
         return (
             <ListItem button>
+                <ListItemIcon>
+                    <Group />
+                </ListItemIcon>
                 <ListItemText>{this.props.chat.title}</ListItemText>
                 <ListItemSecondaryAction>
                     <IconButton

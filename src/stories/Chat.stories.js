@@ -15,13 +15,23 @@ const chat = {
     title: 'Мой супер чат',
     userId: '1',
     participants: ['1', '2'],
-    isPrivate: false
+    isPrivate: false,
+    isDialogue: false
 };
 
 export const Owner = Template.bind({});
 Owner.args = {
     userId: '1',
     chat,
+    goHandler: action('go'),
+    joinHandler: action('join'),
+    deleteHandler: action('delete')
+};
+
+export const Dialogue = Template.bind({});
+Dialogue.args = {
+    userId: '1',
+    chat: { ...chat, isDialogue: true, userId: null },
     goHandler: action('go'),
     joinHandler: action('join'),
     deleteHandler: action('delete')
