@@ -3,42 +3,33 @@ import MessageForm from '@/components/MessageForm';
 import MessagesList from '@/components/MessagesList';
 import apiService from '@/apiService';
 import styles from './styles.module.css';
+import { getWsClient } from '@/wsService';
 
 class ChatView extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         // эти переменные будут меняться динамически
         this.state = {
             messages: [],
             users: []
         };
 
-        this.timer = null;
+        this.needScroll = true;
     }
 
     componentDidMount() {
-        let firstTime = true;
-        this.setState({ users: [], messages: [] });
-        this.timer = setInterval(async () => {
-            await this.getMessages();
-            if (firstTime) {
-                this.scrollToBottom();
-            }
-            firstTime = false;
-        }, 1000);
+        this.getMessages().then(() => this.scrollToBottom());
+        this.wsClient = getWsClient(`/message/${this.props.match.params.id}`, newMessage =>
+            this.receiveMessageWs(newMessage)
+        );
     }
 
     componentWillUnmount() {
-        clearInterval(this.timer);
+        this.wsClient.close();
     }
 
     postMessage({ content }) {
-        apiService.message
-            .create({ content, chatId: this.props.match.params.id })
-            .then(async () => {
-                await this.getMessages();
-                this.scrollToBottom();
-            });
+        this.wsClient.wsSend({ content, chatId: this.props.match.params.id });
     }
 
     async getMessages() {
@@ -55,6 +46,16 @@ class ChatView extends React.Component {
 
         const serverMessages = await apiService.message.getMessages(this.props.match.params.id);
         let newMessages = getOnlyNewMessages(serverMessages, this.state.messages);
+        await this.addNicknamesToMessages(newMessages);
+    }
+
+    async receiveMessageWs(newMessage) {
+        await this.addNicknamesToMessages([newMessage]);
+        this.needScroll = true;
+        this.scrollToBottom();
+    }
+
+    async addNicknamesToMessages(newMessages) {
         await this.getUsers(newMessages);
         newMessages = newMessages.map(message => {
             const user = this.state.users.find(user => user.id === message.userId);
@@ -82,6 +83,7 @@ class ChatView extends React.Component {
 
     scrollToBottom() {
         this.messagesEnd.scrollIntoView({ behavior: 'smooth' });
+        this.needScroll = false;
     }
 
     render() {

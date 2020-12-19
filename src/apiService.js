@@ -1,7 +1,12 @@
 import axios from 'axios';
+import { isProduction } from '@/utils';
+
+// eslint-disable-next-line sonarjs/no-all-duplicated-branches
+export const URL = isProduction() ? 'shielded-anchorage-94550.herokuapp.com' : 'localhost:3001';
+const PROTOCOL = isProduction() ? 'https' : 'http';
 
 const axiosInstance = axios.create({
-    baseURL: 'http://localhost:3001',
+    baseURL: `${PROTOCOL}://${URL}`,
     withCredentials: true
 });
 
