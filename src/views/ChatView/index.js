@@ -19,9 +19,17 @@ class ChatView extends React.Component {
 
     componentDidMount() {
         this.getMessages().then(() => this.scrollToBottom());
-        this.wsClient = getWsClient(`/message/${this.props.match.params.id}`, newMessage =>
-            this.receiveMessageWs(newMessage)
-        );
+        this.wsClient = getWsClient(`/message/${this.props.match.params.id}`, incoming => {
+            if (incoming.added) {
+                this.receiveMessageWs(incoming.added);
+            }
+            if (incoming.deleted) {
+                const newMessages = this.state.messages.filter(
+                    message => message.id !== incoming.deleted
+                );
+                this.setState({ messages: newMessages });
+            }
+        });
     }
 
     componentWillUnmount() {
